@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "欧俊",
+  "classifications": [
+    "webapi"
+  ],
+  "name": "DotNetCoreApiTemplate",
+  "identity": "DotNetCoreApiTemplate",
+  "groupIdentity": "DotNetCoreApiTemplate",
+  "shortName": "dncat",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "CoreTemplate",
+  "preferNameDirectory": true,
+  "exclude": [
+    "**/[Bb]in/**",
+    "**/[Oo]bj/**",
+    "**/.vs/**",
+    ".template.config/**/*",
+    "**/*.filelist",
+    "**/*.user",
+    "**/*.lock.json"
+  ],
+  "symbols": {
+    "hangfire": {
+      "type": "parameter",
+      "dataType": "bool",
+      "isRequired": true,
+      "description": "是否使用hangfire"
+    },
+    "rabbitmq": {
+      "type": "parameter",
+      "dataType": "bool",
+      "isRequired": true,
+      "description": "是否使用RabbitMQ,使用 RabbitMQ.EventBus.AspNetCore包"
+    },
+    "redis": {
+      "type": "parameter",
+      "dataType": "bool",
+      "isRequired": true,
+      "description": "是否使用DistributedRedisCache"
+    },
+    "pg": {
+      "type": "parameter",
+      "dataType": "bool",
+      "defaultValue": "true",
+      "description": "是否使用Postgresql"
+    },
+    "es": {
+      "type": "parameter",
+      "dataType": "bool",
+      "isRequired": true,
+      "description": "是否使用ElasticSearch"
+    },
+    "sourceNameLower": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "yamlComponentNameReplace",
+      "replaces": "YAMLCOMPONENTNAME"
+    }
+  },
+  "forms": {
+    "yamlComponentNameReplace": {
+      "identifier": "chain",
+      "steps": [
+        "replaceDot",
+        "lowerCase"
+      ]
+    },
+    "replaceDot": {
+      "identifier": "replace",
+      "pattern": "(\\.|-|_)",
+      "replacement": "-"
+    },
+    "lowerCase": {
+      "identifier": "lowerCase"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(!hangfire)",
+          "exclude": [
+            "**/HangfireAuthorizationFilter.cs"
+          ]
+        },
+        {
+          "condition": "(!pg)",
+          "exclude": [
+            "**/CoreTemplate.Infrastructure.NpgSql/**",
+            "**/Events/**",
+            "**/SeedWork/**",
+            "**/Migrations/**",
+            "**/DomainEventHandlers/**",
+            "**/InitialSeed.cs",
+            "**/IApplicationBuilderExtensions.cs"
+          ]
+        },
+        {
+          "condition": "(!es)",
+          "exclude": [
+            "**/CoreTemplate.Infrastructure.ES/**"
+          ]
+        }
+      ]
+    }
+  ]
+}

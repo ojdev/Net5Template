@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: YAMLCOMPONENTNAME
+  name: YAMLCOMPONENTNAME
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: YAMLCOMPONENTNAME
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        component: YAMLCOMPONENTNAME
+    spec:
+      containers:
+      - env:
+////#if (pg)
+//        - name: ConnectionStrings__Default
+//          value: "Server=#{postgresql_host_and_port}#;Database=CoreTemplate;uid=#{postgresql_username}#;pwd=#{postgresql_password}#;"
+////#endif
+////#if (hangfire)
+//        - name: Hangfire__Enabled
+//          value: "true"
+//        - name: Hangfire__ConnectionString
+//          value: "Server=#{postgresql_host_and_port}#;Database=CoreTemplate;uid=#{postgresql_username}#;pwd=#{postgresql_password}#;"
+////#endif
+////#if (rabbitmq)
+//        - name: RabbitMQService__ServiceName
+//          valueFrom:
+//            configMapKeyRef:
+//              key: RABBITMQ_SERVICE_IP
+//              name: env
+//        - name: RabbitMQService__UserName
+//          valueFrom:
+//            configMapKeyRef:
+//              key: RABBITMQ_SERVICE_USER
+//              name: env
+//        - name: RabbitMQService__Password
+//          valueFrom:
+//            configMapKeyRef:
+//              key: RABBITMQ_SERVICE_PASS
+//              name: env
+////#endif
+////#if (redis)
+//        - name: BuildingCache__Host
+//          value: "#{rapid_storage_host}#"
+//        - name: BuildingCache__Port
+//          value: "#{rapid_storage_port}#"
+//        - name: BuildingCache__Password
+//          value: "#{rapid_storage_secret}#"
+////#endif
+////#if (es)
+//        - name: ElasticSearch__Host
+//          valueFrom:
+//            configMapKeyRef:
+//              key: ELASTICSEARCH_HOST
+//              name: env
+//        - name: ElasticSearch__Username
+//          valueFrom:
+//            configMapKeyRef:
+//              key: ELASTICSEARCH_USERNAME
+//              name: env
+//        - name: ElasticSearch__Password
+//          valueFrom:
+//            configMapKeyRef:
+//              key: ELASTICSEARCH_PASSWORD
+//              name: env
+////#endif
+        - name: MiddlewareKeyvalueService
+          value: "http://middleware-keyvalue"
+        - name: Logging__LogLevel_Default
+          value: "Debug"
+        - name: Logging__LogLevel_Microsoft
+          value: "Warning"
+        - name: Logging__LogLevel_Microsoft.Hosting.Lifetime
+          value: "Information"
+        image: "#{dockerregistoy}#coretemplate:#{RELEASE.RELEASENAME}#"
+        imagePullPolicy: IfNotPresent
+        name: YAMLCOMPONENTNAME
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /hc
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 60
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: YAMLCOMPONENTNAME
+  name: YAMLCOMPONENTNAME
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    component: YAMLCOMPONENTNAME
+  type: ClusterIP

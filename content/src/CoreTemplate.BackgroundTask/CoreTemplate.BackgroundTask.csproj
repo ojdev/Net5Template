@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--#if (hangfire) -->
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.24" />
+    <!--#endif -->
+    <!--#if (rabbitmq) -->
+    <PackageReference Include="RabbitMQ.EventBus.AspNetCore" Version="5.0.21" />
+    <!--#endif -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--#if (es) -->
+    <ProjectReference Include="..\CoreTemplate.Infrastructure.ES\CoreTemplate.Infrastructure.ES.csproj" />
+    <!--#endif -->
+    <!--#if (pg) -->
+    <ProjectReference Include="..\CoreTemplate.Infrastructure.NpgSql\CoreTemplate.Infrastructure.NpgSql.csproj" />
+    <!--#endif -->
+  </ItemGroup>
+
+</Project>

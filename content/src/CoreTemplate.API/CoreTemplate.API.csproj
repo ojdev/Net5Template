@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFramework>net5.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <!--#if (es) -->
+    <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="5.0.1" />
+    <!--#endif -->
+    <!--#if (pg) -->
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="5.0.2" />
+    <!--#endif -->
+    <!--#if (rabbitmq) -->
+    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="5.0.1" />
+    <!--#endif -->
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.0" />
+    <!--#if (hangfire) -->
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.8.6" />
+    <!--#endif -->
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.9" />
+    <!--#if (pg) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <!--#endif -->
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.13.2" />
+    <!--#if (pg) -->
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <!--#endif -->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreTemplate.BackgroundTask\CoreTemplate.BackgroundTask.csproj" />
+    <ProjectReference Include="..\CoreTemplate.Infrastructure.ES\CoreTemplate.Infrastructure.ES.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\Models\" />
+  </ItemGroup>
+
+</Project>

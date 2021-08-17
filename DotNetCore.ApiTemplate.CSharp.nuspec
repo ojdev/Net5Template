@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>DotNetCore.ApiTemplate.CSharp</id>
+    <version>1.0.2</version>
+    <description>
+      一个普通的.net core web api模板
+    </description>
+    <dependencies>
+      <group targetFramework=".net5.0" />
+    </dependencies>
+    <authors>欧俊</authors>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+    <license type="expression">MIT</license>
+    <repository type="git" url="https://github.com/ojdev/NetCoreTemplete" branch="main" />
+  </metadata>
+</package>

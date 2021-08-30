@@ -1,6 +1,6 @@
 # 安装
 
-`dotnet new --install DotNetCore.ApiTemplate.CSharp::1.0.1`
+`dotnet new --install DotNetCore.ApiTemplate.CSharp::1.0.2`
 
 # 卸载
 

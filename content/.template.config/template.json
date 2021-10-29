@@ -96,7 +96,8 @@
             "**/Migrations/**",
             "**/DomainEventHandlers/**",
             "**/InitialSeed.cs",
-            "**/IApplicationBuilderExtensions.cs"
+            "**/IApplicationBuilderExtensions.cs",
+            "**/IntegrationTests/Data/**"
           ]
         },
         {
